@@ -9,6 +9,10 @@ module Webern
       replace zero
     end
 
+    def prime
+      Row.new *self
+    end
+
     def inversion
       Row.new *self.map{|i| (12 - i) % 12}
     end

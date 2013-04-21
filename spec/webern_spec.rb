@@ -7,5 +7,6 @@ describe Webern do
     Webern::Formatters::Text.new(row).draw
     Webern::Formatters::Text.new(row, false).write_to_file('/Users/mikowitz/Desktop/row.txt')
     Webern::Formatters::Pdf.new(row).write_to_file('/Users/mikowitz/Desktop/row.pdf')
+    Webern::Formatters::Lilypond.new(row).write_to_file('/Users/mikowitz/Desktop/row.ly')
   end
 end
