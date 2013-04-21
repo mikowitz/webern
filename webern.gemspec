@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Webern::VERSION
   spec.authors       = ["Michael Berkowitz"]
   spec.email         = ["michael.berkowitz@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
+  spec.description   = %q{Transforms user input into a complete 12-tone row and computes all 48 (at most) possible rows that result from the matrix of that row.}
+  spec.summary       = %q{Calculates all 48 possible 12-tone rows from the given input}
   spec.homepage      = ""
   spec.license       = "MIT"
 
@@ -20,4 +20,9 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.3"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "guard"
+  spec.add_development_dependency "guard-rspec"
+  spec.add_development_dependency "terminal-notifier-guard"
+  spec.add_development_dependency "rb-fsevent"
 end
