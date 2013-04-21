@@ -1,30 +1,31 @@
 module Webern
   module Formatters
     class Text < Base
-      def draw(show_pitch_classes=true)
-        @prime_row.inversion.each do |i|
-          puts border_row
-          puts empty_row
-          puts @prime_row.transpose(i).map{|n| pitch_cell(n) }.join + '|' + "\n"
-          puts empty_row
-        end
-        puts border_row
+      def draw
+        output($stdout)
       end
 
-      def write_to_file(filename, show_pitch_classes=true)
+
+      def write_to_file(filename)
         File.open(filename, 'w') do |f|
-          @prime_row.inversion.each do |i|
-            f << border_row + "\n"
-            f << empty_row + "\n"
-            f << @prime_row.transpose(i).map{|n| pitch_cell(n) }.join + '|' + "\n"
-            f << empty_row + "\n"
-          end
-          f << border_row + "\n"
+          output(f)
         end
       end
 
-      def border_row; ('|---------' * 12) + '|'; end
-      def empty_row; ('|         ' * 12) + '|'; end
+      private 
+
+      def output(target)
+        @prime_row.inversion.each do |i|
+          target << border_row
+          target << empty_row
+          target << @prime_row.transpose(i).map{|n| pitch_cell(n) }.join + "|\n"
+          target << empty_row
+        end
+        target << border_row
+      end
+
+      def border_row; ('|---------' * 12) + "|\n"; end
+      def empty_row; ('|         ' * 12) + "|\n"; end
       def pitch_cell(n)
         '|   %s    ' % (@show_pitch_classes ? PITCH_CLASSES[n] : n.to_s).rjust(2)
       end
