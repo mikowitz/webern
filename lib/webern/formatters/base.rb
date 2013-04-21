@@ -6,6 +6,10 @@ module Webern
         @prime_row = prime_row
         @show_pitch_classes = show_pitch_classes
       end
+
+      def pitch_value(n)
+        @show_pitch_classes ? PITCH_CLASSES[n] : n.to_s
+      end
     end
   end
 end

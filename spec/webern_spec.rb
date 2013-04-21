@@ -6,5 +6,6 @@ describe Webern do
     puts
     Webern::Formatters::Text.new(row).draw
     Webern::Formatters::Text.new(row, false).write_to_file('/Users/mikowitz/Desktop/row.txt')
+    Webern::Formatters::Pdf.new(row).write_to_file('/Users/mikowitz/Desktop/row.pdf')
   end
 end

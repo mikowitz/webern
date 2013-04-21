@@ -27,7 +27,7 @@ module Webern
       def border_row; ('|---------' * 12) + "|\n"; end
       def empty_row; ('|         ' * 12) + "|\n"; end
       def pitch_cell(n)
-        '|   %s    ' % (@show_pitch_classes ? PITCH_CLASSES[n] : n.to_s).rjust(2)
+        '|   %s    ' % (pitch_value(n)).rjust(2)
       end
     end
   end
