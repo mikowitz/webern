@@ -33,6 +33,14 @@ module Webern
       Row.new *self.map{|i| (i + 12 - self[0]) % 12}
     end
 
+    def write(format, opts={})
+      Webern::Formatters.formatter(format).new(self, opts).write_to_file
+    end
+
+    def draw(opts={})
+      Webern::Formatters::TextFormatter.new(self, opts).draw
+    end
+
     private
 
     def complete_row

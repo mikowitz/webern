@@ -2,12 +2,6 @@
 
 Transforms user input into a complete 12-tone row and computes all 48 (at most) possible rows that result from the matrix of that row.
 
-Possible outputs:
-
-* text
-* pdf
-* lilypond
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -33,12 +27,32 @@ numbers by adding them in ascending order to the end of the provided row.
 
     row = Webern::Row.new(5, 4, 8, 7, 10, 11, 3, 2) #=> [5, 4, 8, 7, 10, 11, 3, 2, 0, 1, 6, 9]
 
-Then choose a format in which to output either the matrix (text or pdf) or all
-possible rows resulting from that matrix (lilypond).
+Your row can then be printed as a text or PDF matrix, or a lilypond score
+with all possible rows printed
 
-    Webern::Formatters.Text.new(row).print_to_file('filename.txt)
-    Webern::Formatters.Pdf.new(row).print_to_file('filename.pdf)
-    Webern::Formatters.Lilypond.new(row).print_to_file('filename.ly')
+    row.print(format, options)
+
+where `format` can currently be one of
+
+* `:text`
+* `:pdf`
+* `:lilypond`
+
+and allowed `options` are
+
+* `:show_pitches` (defaults to `true`) 
+  * if `true`, outputs text and PDF
+formats using pitch class names (C, C#, D, Eb, etc.)
+  * if `false`, outputs text and PDF using scale degrees (0, 1, 2, 3, etc.)
+* `:filename` (defaults to `row`)
+* `:path` (defaults to current directory)
+
+`Webern` can also print a text matrix directly to the console with
+
+  row.draw(options)
+
+where `options` are the same as above (though only `:show_pitches` will affect the output)
+
 
 The `lilypond` executable is required in order to convert the resulting `filename.ly` file to PDF.
 
@@ -49,3 +63,7 @@ The `lilypond` executable is required in order to convert the resulting `filenam
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+## Copyright
+
+Copyright © 2013 Michael Berkowitz (@hal678). See LICENSE.txt for further details. 
