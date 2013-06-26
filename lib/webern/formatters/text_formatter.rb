@@ -1,13 +1,13 @@
 module Webern
   module Formatters
-    class Text < Base
+    class TextFormatter < BaseFormatter
       def draw
         output($stdout)
       end
 
 
-      def write_to_file(filename)
-        File.open(filename, 'w') do |f|
+      def write_to_file
+        File.open("#{@filepath}.txt", 'w') do |f|
           output(f)
         end
       end

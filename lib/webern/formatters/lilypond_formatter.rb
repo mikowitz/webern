@@ -1,8 +1,8 @@
 module Webern
   module Formatters
-    class Lilypond < Base
-      def write_to_file(filename)
-        File.open(filename, 'w') do |f|
+    class LilypondFormatter < BaseFormatter
+      def write_to_file
+        File.open("#{@filepath}.ly", 'w') do |f|
           f << LILYPOND_HEADER
           f << "rows = {\n"
           f << "\\time 12/4\n"
