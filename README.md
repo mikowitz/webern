@@ -49,12 +49,14 @@ formats using pitch class names (C, C#, D, Eb, etc.)
 
 `Webern` can also print a text matrix directly to the console with
 
-  row.draw(options)
+    row.draw(options)
 
 where `options` are the same as above (though only `:show_pitches` will affect the output)
 
 
-The `lilypond` executable is required in order to convert the resulting `filename.ly` file to PDF.
+### Notes
+
+The `lilypond` executable is required in order to convert the resulting `row.ly` file to a viewable PDF.
 
 ## Contributing
 
