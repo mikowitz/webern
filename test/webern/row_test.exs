@@ -1,6 +1,5 @@
 defmodule Webern.RowTest do
   use ExUnit.Case
-
   alias Webern.Row
 
   @op_28 [10, 9, 0, 11, 3, 4, 1, 2, 6, 5, 8, 7]
