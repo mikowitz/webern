@@ -56,3 +56,12 @@ defmodule Webern.Row do
   defp normalize(n) when n < 0, do: normalize(n + (-n * 12))
   defp normalize(n), do: rem(n, 12)
 end
+
+defimpl String.Chars, for: Webern.Row do
+  def to_string(row = %Webern.Row{}) do
+    Webern.to_pitches(row)
+    |> Enum.map(&String.ljust(&1, 4))
+    |> Enum.join("")
+    |> String.strip
+  end
+end

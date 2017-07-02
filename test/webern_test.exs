@@ -79,4 +79,48 @@ defmodule WebernTest do
       }
     end
   end
+
+  describe ".to_pitches" do
+    test ".to_pitches/1 returns the row as realized with pitches, letting 0 = C" do
+      assert to_pitches(row(@op_24)) == ~w( b bf d ef g fs af e f c cs a )
+    end
+
+    test ".to_pitches/2 returns the row as realized with pitches, passing along the pitch for the first step" do
+      assert to_pitches(row(@op_24), "d") == ~w( d cs f fs bf a b g af ef e c )
+    end
+  end
+
+  describe ".matrix/1" do
+    test "it returns a 12x12 matrix for the given row" do
+      row = row(@op_24)
+      matrix = matrix(row)
+
+      assert List.first(matrix.primes).pitch_classes == @op_24
+      assert List.last(matrix.primes).pitch_classes ==
+        [1, 0, 4, 5, 9, 8, 10, 6, 7, 2, 3, 11]
+    end
+  end
+
+  describe ".to_string/1" do
+    test "it returns a space separated row when called with a row" do
+      assert to_string(row(@op_24)) == "b   bf  d   ef  g   fs  af  e   f   c   cs  a"
+    end
+
+    test "it returns a space separated matrix when called with a matrix" do
+      assert to_string(matrix(row(@op_24))) == """
+b   bf  d   ef  g   fs  af  e   f   c   cs  a
+c   b   ef  e   af  g   a   f   fs  cs  d   bf
+af  g   b   c   e   ef  f   cs  d   a   bf  fs
+g   fs  bf  b   ef  d   e   c   cs  af  a   f
+ef  d   fs  g   b   bf  c   af  a   e   f   cs
+e   ef  g   af  c   b   cs  a   bf  f   fs  d
+d   cs  f   fs  bf  a   b   g   af  ef  e   c
+fs  f   a   bf  d   cs  ef  b   c   g   af  e
+f   e   af  a   cs  c   d   bf  b   fs  g   ef
+bf  a   cs  d   fs  f   g   ef  e   b   c   af
+a   af  c   cs  f   e   fs  d   ef  bf  b   g
+cs  c   e   f   a   af  bf  fs  g   d   ef  b
+""" |> String.strip
+    end
+  end
 end
