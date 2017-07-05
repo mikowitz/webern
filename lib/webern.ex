@@ -54,4 +54,10 @@ defmodule Webern do
   def matrix(row = %Webern.Row{}) do
     Matrix.new(row)
   end
+
+  def to_lily(object, filename) do
+    File.write(filename <> ".ly", Webern.Lilypond.to_lily(object))
+    "lilypond -o #{filename} #{filename}.ly"
+    |> to_charlist |> :os.cmd
+  end
 end

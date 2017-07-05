@@ -123,4 +123,13 @@ cs  c   e   f   a   af  bf  fs  g   d   ef  b
 """ |> String.strip
     end
   end
+
+  describe ".to_lily/2" do
+    test "it writes the 48 labeled permutations of the row to a lilypond file and compiles it" do
+      to_lily(matrix(row(@op_24)), "op_24")
+
+      assert :ok == File.rm("op_24.ly")
+      assert :ok == File.rm("op_24.pdf")
+    end
+  end
 end

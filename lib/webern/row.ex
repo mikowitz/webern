@@ -65,3 +65,29 @@ defimpl String.Chars, for: Webern.Row do
     |> String.strip
   end
 end
+
+defimpl Webern.Lilypond, for: Webern.Row do
+  def to_lily(row = %Webern.Row{}) do
+    [
+      "\\version \"2.17.0\"",
+      "\\language \"english\"",
+      "",
+      "\\new Score {",
+      "  \\new Staff {",
+      "    {",
+      "      \\override Staff.TimeSignature #'stencil = ##f",
+      "      \\override Staff.Stem #'transparent = ##t",
+      "      \\time 12/4",
+      "      " <> row_pitches_to_lily(row),
+      "    }",
+      "  }",
+      "}"
+    ] |> Enum.join("\n")
+  end
+
+  def row_pitches_to_lily(row = %Webern.Row{}) do
+    Webern.to_pitches(row)
+    |> Enum.map(&"#{&1}'")
+    |> Enum.join(" ")
+  end
+end
