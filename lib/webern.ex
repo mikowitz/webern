@@ -9,31 +9,31 @@ defmodule Webern do
 
   def p(row = %Webern.Row{}, start \\ nil) do
     with start <- start || List.first(row.pitch_classes) do
-      Row.p(row, start)
+      Row.prime(row, start)
     end
   end
 
   def r(row = %Webern.Row{}, start \\ nil) do
     with start <- start || List.first(row.pitch_classes) do
-      Row.r(row, start)
+      Row.retrograde(row, start)
     end
   end
 
   def i(row = %Webern.Row{}, start \\ nil) do
     with start <- start || List.first(row.pitch_classes) do
-      Row.i(row, start)
+      Row.inverse(row, start)
     end
   end
 
   def ri(row = %Webern.Row{}, start \\ nil) do
     with start <- start || List.first(row.pitch_classes) do
-      Row.ri(row, start)
+      Row.retrograde_inverse(row, start)
     end
   end
 
   def ir(row = %Webern.Row{}, start \\ nil) do
     with start <- start || List.first(row.pitch_classes) do
-      Row.ir(row, start)
+      Row.inverse_retrograde(row, start)
     end
   end
 

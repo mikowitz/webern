@@ -5,24 +5,24 @@ defmodule Webern.Row do
     %__MODULE__{pitch_classes: pitch_classes}
   end
 
-  def p(row = %__MODULE__{}, start) do
+  def prime(row = %__MODULE__{}, start) do
     row |> zero |> transpose(start)
   end
 
-  def r(row = %__MODULE__{}, start) do
-    row |> zero |> transpose(start) |> retrograde
+  def retrograde(row = %__MODULE__{}, start) do
+    row |> zero |> transpose(start) |> _retrograde
   end
 
-  def i(row = %__MODULE__{}, start) do
-    row |> zero |> inverse |> transpose(start)
+  def inverse(row = %__MODULE__{}, start) do
+    row |> zero |> _inverse |> transpose(start)
   end
 
-  def ri(row = %__MODULE__{}, start) do
-    row |> zero |> inverse |> transpose(start) |> retrograde
+  def retrograde_inverse(row = %__MODULE__{}, start) do
+    row |> zero |> _inverse |> transpose(start) |> _retrograde
   end
 
-  def ir(row = %__MODULE__{}, start) do
-    row |> zero |> transpose(start) |> retrograde |> inverse
+  def inverse_retrograde(row = %__MODULE__{}, start) do
+    row |> zero |> transpose(start) |> _retrograde |> _inverse
   end
 
   defp normalize(n) when n < 0, do: normalize(n + (-n * 12))
@@ -34,11 +34,11 @@ defmodule Webern.Row do
     end
   end
 
-  defp retrograde(%__MODULE__{pitch_classes: pitch_classes}) do
+  defp _retrograde(%__MODULE__{pitch_classes: pitch_classes}) do
     new(Enum.reverse(pitch_classes))
   end
 
-  defp inverse(%__MODULE__{pitch_classes: pitch_classes}) do
+  defp _inverse(%__MODULE__{pitch_classes: pitch_classes}) do
     with [h|_] <- pitch_classes do
       new(Enum.map(pitch_classes, &(normalize(h - (&1 - h)))))
     end

@@ -10,32 +10,32 @@ defmodule Webern.RowTest do
     }
   end
 
-  test ".p/2 returns the prime version of a row starting at a given step" do
-    assert Row.new(@op_28) |> Row.p(2) == %Webern.Row{
+  test ".prime/2 returns the prime version of a row starting at a given step" do
+    assert Row.new(@op_28) |> Row.prime(2) == %Webern.Row{
       pitch_classes: [2, 1, 4, 3, 7, 8, 5, 6, 10, 9, 0, 11]
     }
   end
 
-  test ".r/2 returns the retrograde of a row that starts at the given step" do
-    assert Row.new(@op_28) |> Row.r(5) == %Webern.Row{
+  test ".retrograde/2 returns the retrograde of a row that starts at the given step" do
+    assert Row.new(@op_28) |> Row.retrograde(5) == %Webern.Row{
       pitch_classes: [2, 3, 0, 1, 9, 8, 11, 10, 6, 7, 4, 5]
     }
   end
 
-  test ".i/2 returns an inverse version of a row starting at a given step" do
-    assert Row.new(@op_28) |> Row.i(6) == %Webern.Row{
+  test ".inverse/2 returns an inverse version of a row starting at a given step" do
+    assert Row.new(@op_28) |> Row.inverse(6) == %Webern.Row{
       pitch_classes: [6, 7, 4, 5, 1, 0, 3, 2, 10, 11, 8, 9]
     }
   end
 
-  test ".ri/2 returns the retrograde of an inverted row that starts at a given step" do
-    assert Row.new(@op_28) |> Row.ri(9) == %Webern.Row{
+  test ".retrograde_inverse/2 returns the retrograde of an inverted row that starts at a given step" do
+    assert Row.new(@op_28) |> Row.retrograde_inverse(9) == %Webern.Row{
       pitch_classes: [0, 11, 2, 1, 5, 6, 3, 4, 8, 7, 10, 9]
     }
   end
 
-  test ".ir/2 returns the inverse of the retrograde of a row starting at a given step" do
-    assert Row.new(@op_28) |> Row.ir(5) == %Webern.Row{
+  test ".inverse_retrograde/2 returns the inverse of the retrograde of a row starting at a given step" do
+    assert Row.new(@op_28) |> Row.inverse_retrograde(5) == %Webern.Row{
       pitch_classes: [2, 1, 4, 3, 7, 8, 5, 6, 10, 9, 0, 11]
     }
   end

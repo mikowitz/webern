@@ -8,8 +8,8 @@ defmodule Webern.Matrix do
   end
 
   defp build_primes(row) do
-    Enum.map(Row.i(row, List.first(row.pitch_classes)).pitch_classes, fn start ->
-      Row.p(row, start)
+    Enum.map(Row.inverse(row, List.first(row.pitch_classes)).pitch_classes, fn start ->
+      Row.prime(row, start)
     end)
   end
 end
