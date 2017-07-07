@@ -8,8 +8,15 @@ if Mix.env == :dev do
     tasks: [
       "test",
       "credo --strict",
+      "dogma",
     ]
+
 end
+
+config :dogma,
+  exclude: [
+    ~r(\Atest/)
+  ]
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this

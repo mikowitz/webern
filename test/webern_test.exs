@@ -200,8 +200,8 @@ a   c   f   fs  ef  b
     test "it writes the 48 labeled permutations of the row to a lilypond file and compiles it" do
       to_lily(matrix(row(@op_24)), "op_24")
 
-      assert :ok == File.rm("op_24.ly")
-      assert :ok == File.rm("op_24.pdf")
+      #assert :ok == File.rm("op_24.ly")
+      #assert :ok == File.rm("op_24.pdf")
     end
   end
 end

@@ -55,10 +55,10 @@ defimpl Webern.Lilypond, for: Webern.Matrix do
   end
 
   def add_transformation_markup(str, form, index) do
-    with  [h|t] <- String.split(str, " "),
-          marked_h <- h <> "\\mark \"#{form}#{index}\""
+    with  [h | t] <- String.split(str, " "),
+          marked_h <- h <> ~s(\\mark "#{form}#{index}")
     do
-      Enum.join([marked_h|t], " ")
+      Enum.join([marked_h | t], " ")
     end
   end
 end

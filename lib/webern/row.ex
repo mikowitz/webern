@@ -30,7 +30,7 @@ defmodule Webern.Row do
   defp normalize(n), do: rem(n, 12)
 
   defp zero(%__MODULE__{pitch_classes: pitch_classes}) do
-    with [h|_] <- pitch_classes do
+    with [h | _] <- pitch_classes do
       new(Enum.map(pitch_classes, &(normalize(&1 - h))))
     end
   end
@@ -40,7 +40,7 @@ defmodule Webern.Row do
   end
 
   defp _inverse(%__MODULE__{pitch_classes: pitch_classes}) do
-    with [h|_] <- pitch_classes do
+    with [h | _] <- pitch_classes do
       new(Enum.map(pitch_classes, &(normalize(h - (&1 - h)))))
     end
   end

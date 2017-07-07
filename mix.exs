@@ -30,6 +30,7 @@ defmodule Webern.Mixfile do
   defp deps do
     [
       {:credo, "~> 0.8.2"},
+      {:dogma, "~> 0.1"},
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false}
     ]
   end
