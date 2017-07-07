@@ -12,30 +12,35 @@ defmodule Webern do
       Row.prime(row, start)
     end
   end
+  defdelegate prime(row, start \\ nil), to: __MODULE__, as: :p
 
   def r(row = %Webern.Row{}, start \\ nil) do
     with start <- start || List.first(row.pitch_classes) do
       Row.retrograde(row, start)
     end
   end
+  defdelegate retrograde(row, start \\ nil), to: __MODULE__, as: :r
 
   def i(row = %Webern.Row{}, start \\ nil) do
     with start <- start || List.first(row.pitch_classes) do
       Row.inverse(row, start)
     end
   end
+  defdelegate inverse(row, start \\ nil), to: __MODULE__, as: :i
 
   def ri(row = %Webern.Row{}, start \\ nil) do
     with start <- start || List.first(row.pitch_classes) do
       Row.retrograde_inverse(row, start)
     end
   end
+  defdelegate retrograde_inverse(row, start \\ nil), to: __MODULE__, as: :ri
 
   def ir(row = %Webern.Row{}, start \\ nil) do
     with start <- start || List.first(row.pitch_classes) do
       Row.inverse_retrograde(row, start)
     end
   end
+  defdelegate inverse_retrograde(row, start \\ nil), to: __MODULE__, as: :ir
 
   def to_pitches(object, starting_pitch \\ nil)
   def to_pitches(row = %Webern.Row{pitch_classes: pcs}, starting_pitch) do

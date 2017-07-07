@@ -3,6 +3,7 @@ defmodule WebernTest do
   import Webern
 
   @op_24 [11, 10, 2, 3, 7, 6, 8, 4, 5, 0, 1, 9]
+  @short_row [11, 2, 7, 8, 5, 1]
 
   test ".row/1 returns a row from a given pitch class list" do
     assert row(@op_24) == %Webern.Row{
@@ -17,9 +18,21 @@ defmodule WebernTest do
       }
     end
 
+    test ".p/1 returns the original prime form for a short row" do
+      assert p(row(@short_row)) == %Webern.Row{
+        pitch_classes: [11, 2, 7, 8, 5, 1]
+      }
+    end
+
     test ".p/2 returns the prime form of the row starting at the given step" do
       assert p(row(@op_24), 3) == %Webern.Row{
         pitch_classes: [3, 2, 6, 7, 11, 10, 0, 8, 9, 4, 5, 1]
+      }
+    end
+
+    test "can also be accessed as .prime/1" do
+      assert prime(row(@op_24)) == %Webern.Row{
+        pitch_classes: [11, 10, 2, 3, 7, 6, 8, 4, 5, 0, 1, 9]
       }
     end
   end
@@ -31,9 +44,21 @@ defmodule WebernTest do
       }
     end
 
+    test ".r/1 returns the retrograde form of a short row" do
+      assert r(row(@short_row)) == %Webern.Row{
+        pitch_classes: [1, 5, 8, 7, 2, 11]
+      }
+    end
+
     test ".r/2 returns the retrograde form for the row starting at the given step" do
       assert r(row(@op_24), 3) == %Webern.Row{
         pitch_classes: [1, 5, 4, 9, 8, 0, 10, 11, 7, 6, 2, 3]
+      }
+    end
+
+    test "can also be accessed as .retrograde/1" do
+      assert retrograde(row(@op_24)) == %Webern.Row{
+        pitch_classes: [9, 1, 0, 5, 4, 8, 6, 7, 3, 2, 10, 11]
       }
     end
   end
@@ -45,9 +70,21 @@ defmodule WebernTest do
       }
     end
 
+    test ".i/1 returns the inverse form of a short row" do
+      assert i(row(@short_row)) == %Webern.Row{
+        pitch_classes: [11, 8, 3, 2, 5, 9]
+      }
+    end
+
     test ".i/2 returns the inverse form of the row starting at the given step" do
       assert i(row(@op_24), 3) == %Webern.Row{
         pitch_classes: [3, 4, 0, 11, 7, 8, 6, 10, 9, 2, 1, 5]
+      }
+    end
+
+    test "can also be accessed as .inverse/1" do
+      assert inverse(row(@op_24)) == %Webern.Row{
+        pitch_classes: [11, 0, 8, 7, 3, 4, 2, 6, 5, 10, 9, 1]
       }
     end
   end
@@ -59,9 +96,21 @@ defmodule WebernTest do
       }
     end
 
+    test ".ri/1 returns the retrograde inverse form of a short row" do
+      assert ri(row(@short_row)) == %Webern.Row{
+        pitch_classes: [9, 5, 2, 3, 8, 11]
+      }
+    end
+
     test ".ri/2 returns the retrograde inverse form for the row starting at the given step" do
       assert ri(row(@op_24), 3) == %Webern.Row{
         pitch_classes: [5, 1, 2, 9, 10, 6, 8, 7, 11, 0, 4, 3]
+      }
+    end
+
+    test "can also be accessed as .retrograde_inverse/1" do
+      assert retrograde_inverse(row(@op_24)) == %Webern.Row{
+        pitch_classes: [1, 9, 10, 5, 6, 2, 4, 3, 7, 8, 0, 11]
       }
     end
   end
@@ -73,9 +122,21 @@ defmodule WebernTest do
       }
     end
 
+    test ".ir/1 returns the inverse of the retrograde of a short row" do
+      assert ir(row(@short_row)) == %Webern.Row{
+        pitch_classes: [1, 9, 6, 7, 0, 3]
+      }
+    end
+
     test ".ir/2 returns the inverse of the retrograde of a row starting at a given step" do
       assert ir(row(@op_24), 3) == %Webern.Row{
         pitch_classes: [1, 9, 10, 5, 6, 2, 4, 3, 7, 8, 0, 11]
+      }
+    end
+
+    test "can also be accessed as .inverse_retrograde/1" do
+      assert inverse_retrograde(row(@op_24)) == %Webern.Row{
+        pitch_classes: [9, 5, 6, 1, 2, 10, 0, 11, 3, 4, 8, 7]
       }
     end
   end
@@ -120,6 +181,17 @@ f   e   af  a   cs  c   d   bf  b   fs  g   ef
 bf  a   cs  d   fs  f   g   ef  e   b   c   af
 a   af  c   cs  f   e   fs  d   ef  bf  b   g
 cs  c   e   f   a   af  bf  fs  g   d   ef  b
+""" |> String.strip
+    end
+
+    test "it returns an x by x matrix for an x-length row" do
+      assert to_string(matrix(row(@short_row))) == """
+b   d   g   af  f   cs
+af  b   e   f   d   bf
+ef  fs  b   c   a   f
+d   f   bf  b   af  e
+f   af  cs  d   b   g
+a   c   f   fs  ef  b
 """ |> String.strip
     end
   end
