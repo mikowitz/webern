@@ -1,7 +1,9 @@
 defmodule Webern do
+  @moduledoc false
+
   @pitch_classes ~w( c cs d ef e f fs g af a bf b )
 
-  alias Webern.{Row, Matrix}
+  alias Webern.{Row, Matrix, Lilypond}
 
   def row(source_row) do
     Row.new(source_row)
@@ -61,7 +63,7 @@ defmodule Webern do
   end
 
   def to_lily(object, filename) do
-    File.write(filename <> ".ly", Webern.Lilypond.to_lily(object))
+    File.write(filename <> ".ly", Lilypond.to_lily(object))
     "lilypond -o #{filename} #{filename}.ly"
     |> to_charlist |> :os.cmd
   end

@@ -1,4 +1,6 @@
 defmodule Webern.Lilypond.Utils do
+  @moduledoc false
+
   def lilypond_file_content(tone_row_lily) do
     [
       "\\version \"2.17.0\"",

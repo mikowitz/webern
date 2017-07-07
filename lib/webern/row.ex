@@ -1,4 +1,5 @@
 defmodule Webern.Row do
+  @moduledoc false
   defstruct [:pitch_classes]
 
   def new(pitch_classes) do
@@ -52,7 +53,8 @@ end
 
 defimpl String.Chars, for: Webern.Row do
   def to_string(row = %Webern.Row{}) do
-    Webern.to_pitches(row)
+    row
+    |> Webern.to_pitches
     |> Enum.map(&String.ljust(&1, 4))
     |> Enum.join("")
     |> String.strip
@@ -69,7 +71,8 @@ defimpl Webern.Lilypond, for: Webern.Row do
   end
 
   def row_pitches_to_lily(row = %Webern.Row{}) do
-    Webern.to_pitches(row)
+    row
+    |> Webern.to_pitches
     |> Enum.map(&"#{&1}'")
     |> Enum.join(" ")
   end
