@@ -6,6 +6,9 @@ Elixir library for creating and working with 12-tone rows
 
 <sup>Photo [Public Domain, Wikipedia](https://commons.wikimedia.org/w/index.php?curid=1137036)</sup>
 
+[![Build Status](https://travis-ci.org/mikowitz/webern.svg?branch=master)](https://travis-ci.org/mikowitz/webern)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](LICENSE)
+
 ## API
 
 ### Creating objects
