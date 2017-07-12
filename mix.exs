@@ -1,12 +1,30 @@
 defmodule Webern.Mixfile do
   use Mix.Project
 
+  @github_url "https://github.com/mikowitz/webern"
+
   def project do
     [app: :webern,
+     name: "Webern",
+     description: "Twelve-tone rows in Elixir",
      version: "0.1.0",
      elixir: "~> 1.4",
+     package: [
+       maintainers: ["Michael Berkowitz"],
+       licenses: ["MIT"],
+       links: %{"GitHub" => @github_url}
+     ],
+     source_url: @github_url,
+     homepage_url: @github_url,
+
+     docs: [
+       extras: ["README.md"],
+       main: "readme"
+     ],
+
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+
      deps: deps()]
   end
 

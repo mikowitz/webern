@@ -2,7 +2,7 @@
 
 Elixir library for creating and working with 12-tone rows
 
-![](config/Webern.jpg)
+![](https://github.com/mikowitz/webern/blob/master/config/Webern.jpg?raw=true)
 
 <sup>Photo [Public Domain, Wikipedia](https://commons.wikimedia.org/w/index.php?curid=1137036)</sup>
 
