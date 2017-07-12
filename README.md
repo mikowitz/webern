@@ -2,6 +2,8 @@
 
 Elixir library for creating and working with 12-tone rows
 
+![](config/Webern.jpg)
+
 ## API
 
 ### Creating objects
