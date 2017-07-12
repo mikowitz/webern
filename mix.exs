@@ -31,6 +31,7 @@ defmodule Webern.Mixfile do
     [
       {:credo, "~> 0.8.2"},
       {:dogma, "~> 0.1"},
+      {:ex_doc, "~> 0.16.2"},
       {:mix_test_watch, "~> 0.3", only: :dev, runtime: false}
     ]
   end

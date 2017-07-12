@@ -1,6 +1,7 @@
 defmodule Webern.RowTest do
   use ExUnit.Case
   alias Webern.Row
+  doctest Webern.Row
 
   @op_28 [10, 9, 0, 11, 3, 4, 1, 2, 6, 5, 8, 7]
 
@@ -38,5 +39,17 @@ defmodule Webern.RowTest do
     assert Row.new(@op_28) |> Row.inverse_retrograde(5) == %Webern.Row{
       pitch_classes: [2, 1, 4, 3, 7, 8, 5, 6, 10, 9, 0, 11]
     }
+  end
+
+  describe ".to_list" do
+    test ".to_list/1 returns the pitch class list for the row" do
+      assert Row.to_list(Row.new(@op_28)) == @op_28
+    end
+
+    test ".to_list/2 returns the pitch class list mapped to pitches with 0 set to 'c', or the passed-in pitch class" do
+      assert Row.to_list(Row.new(@op_28), to_pitches: true) == ~w( bf a c b ef e cs d fs f af g )
+
+      assert Row.to_list(Row.new(@op_28), to_pitches: true, zero_pitch: "d") == ~w( c b d cs f fs ef e af g bf a )
+    end
   end
 end
