@@ -215,16 +215,22 @@ end
 defimpl Webern.Lilypond, for: Webern.Row do
   alias Webern.Lilypond.Utils
 
+  @doc """
+  Generates the contents for a lilypond document to display `row` on a staff
+  """
   def to_lily(row = %Webern.Row{}) do
     Utils.lilypond_file_content(
       "      " <> row_pitches_to_lily(row)
     )
   end
 
+  @doc """
+  Formats the pitch classes for the given `row` to display in the middle C
+  octave in LilyPond markup.
+  """
   def row_pitches_to_lily(row = %Webern.Row{}) do
     row
-    |> to_string
-    |> String.split(~r/\s+/)
+    |> Webern.Row.to_list(to_pitches: true)
     |> Enum.map(&"#{&1}'")
     |> Enum.join(" ")
   end

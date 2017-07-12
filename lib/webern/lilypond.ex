@@ -9,6 +9,11 @@ defprotocol Webern.Lilypond do
 
   @type lilypondable :: Webern.Row.t | Webern.Matrix.t
 
+  @doc """
+  Accepts a single argument `lilypondable` which is a `Webern.Row` or
+  `Webern.Matrix` and returns a complete LilyPond document string representing
+  the provided LilyPond-able struct.
+  """
   @spec to_lily(lilypondable) :: String.t
   def to_lily(lilypondable)
 end
