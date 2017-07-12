@@ -29,8 +29,8 @@ defmodule Webern.Row do
   @pitch_classes ~w( c cs d ef e f fs g af a bf b )
 
   @doc """
-  Accepts a list of pitch classes and returns a `Webern.Row` struct
-  built from those pitch classes.
+  Accepts `pitch_classes`, a list of integers between 0 and 11, and returns
+  a `Webern.Row` struct.
 
   ## Example
 

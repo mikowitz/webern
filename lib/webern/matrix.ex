@@ -30,8 +30,8 @@ defmodule Webern.Matrix do
   @type t :: %__MODULE__{primes: [row]}
 
   @doc """
-  Accepts an initial `Webern.Row` as `prime_row` and returns a matrix
-  containing the ordered prime rows for generating the 2D matrix.
+  Accepts `prime_row`, a `Webern.Row`, as an initial prime row and returns
+  a matrix containing the ordered prime rows for generating the 2D tone matrix.
 
   ##Example
 
