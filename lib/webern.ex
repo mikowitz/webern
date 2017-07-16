@@ -4,8 +4,15 @@ defmodule Webern do
 
   ## Creating objects
 
-  `row/1` provides a helper function to generate a new tone row consisting
-  of pitch classes from the 12-tone semitone chromatic scale
+  `row/2` provides a helper function to generate a new tone row consisting
+  of pitch classes from the 12-tone semitone chromatic scale. It can also take
+  an optional keyword list as a second argument, with the following keys
+
+  * `:modulo` specifies the modulo value for the row. If it is not provided,
+    `Webern` will assume that the highest possible value is present in the row
+    and base the modulo value on that. In cases of integral pitch classes, the
+    modulo will be the highest value in the row + 1. Non-integral rows should
+    specify their modulo to avoid unexpected transformations.
 
   `matrix/1` accepts a row as an argument and returns a displayable matrix
   based on the row.
@@ -55,10 +62,19 @@ defmodule Webern do
   A shorter row can also be supplied, but the modulo
   point of the generated row will still be 12, allowing the possibility for
   row permutations to include pitches not present in the original row.
+
+  A keyword list argument containing a value for the key `:modulo` can be passed
+  as a second argument to set the modulo value for the row. If not given, this
+  defaults to the highest value in the row + 1. This assumes an integral-based
+  row of pitch classes. A row using non-integral values should always specify
+  a modulo to avoid unexpected transformations.
+
   """
-  @spec row([integer]) :: row
-  def row(source_row) when is_list(source_row) do
-    Row.new(source_row)
+  @spec row([integer], Keyword.t | nil) :: row
+  def row(source_row, opts \\ []) when is_list(source_row) do
+    with modulo <- Keyword.get(opts, :modulo, Enum.max(source_row) + 1) do
+      Row.new(source_row, modulo)
+    end
   end
 
   @doc """
@@ -70,11 +86,13 @@ defmodule Webern do
       iex> row = Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       iex> Webern.prime(row)
       %Webern.Row{
-        pitch_classes: [0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11]
+        pitch_classes: [0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11],
+        modulo: 12
       }
       iex> Webern.prime(row, 3)
       %Webern.Row{
-        pitch_classes: [3, 5, 4, 6, 7, 9, 8, 10, 11, 1, 0, 2]
+        pitch_classes: [3, 5, 4, 6, 7, 9, 8, 10, 11, 1, 0, 2],
+        modulo: 12
       }
 
   See [above](#module-transforming-tone-rows) for details about the prime form
@@ -93,11 +111,13 @@ defmodule Webern do
       iex> row = Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       iex> Webern.retrograde(row)
       %Webern.Row{
-        pitch_classes: [11, 9, 10, 8, 7, 5, 6, 4, 3, 1, 2, 0]
+        pitch_classes: [11, 9, 10, 8, 7, 5, 6, 4, 3, 1, 2, 0],
+        modulo: 12
       }
       iex> Webern.retrograde(row, 4)
       %Webern.Row{
-        pitch_classes: [3, 1, 2, 0, 11, 9, 10, 8, 7, 5, 6, 4]
+        pitch_classes: [3, 1, 2, 0, 11, 9, 10, 8, 7, 5, 6, 4],
+        modulo: 12
       }
 
   See [above](#module-transforming-tone-rows) for details about
@@ -117,11 +137,13 @@ defmodule Webern do
       iex> row = Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       iex> Webern.inverse(row)
       %Webern.Row{
-        pitch_classes: [0, 10, 11, 9, 8, 6, 7, 5, 4, 2, 3, 1]
+        pitch_classes: [0, 10, 11, 9, 8, 6, 7, 5, 4, 2, 3, 1],
+        modulo: 12
       }
       iex> Webern.inverse(row, 1)
       %Webern.Row{
-        pitch_classes: [1, 11, 0, 10, 9, 7, 8, 6, 5, 3, 4, 2]
+        pitch_classes: [1, 11, 0, 10, 9, 7, 8, 6, 5, 3, 4, 2],
+        modulo: 12
       }
 
   See [above](#module-transforming-tone-rows) for details about the inverse
@@ -143,11 +165,13 @@ defmodule Webern do
       iex> row = Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       iex> Webern.retrograde_inverse(row)
       %Webern.Row{
-        pitch_classes: [1, 3, 2, 4, 5, 7, 6, 8, 9, 11, 10, 0]
+        pitch_classes: [1, 3, 2, 4, 5, 7, 6, 8, 9, 11, 10, 0],
+        modulo: 12
       }
       iex> Webern.retrograde_inverse(row, 5)
       %Webern.Row{
-        pitch_classes: [6, 8, 7, 9, 10, 0, 11, 1, 2, 4, 3, 5]
+        pitch_classes: [6, 8, 7, 9, 10, 0, 11, 1, 2, 4, 3, 5],
+        modulo: 12
       }
 
   See [above](#module-transforming-tone-rows) for details about the retrograde
@@ -169,11 +193,13 @@ defmodule Webern do
       iex> row = Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       iex> Webern.inverse_retrograde(row)
       %Webern.Row{
-        pitch_classes: [11, 1, 0, 2, 3, 5, 4, 6, 7, 9, 8, 10]
+        pitch_classes: [11, 1, 0, 2, 3, 5, 4, 6, 7, 9, 8, 10],
+        modulo: 12
       }
       iex> Webern.inverse_retrograde(row, 8)
       %Webern.Row{
-        pitch_classes: [7, 9, 8, 10, 11, 1, 0, 2, 3, 5, 4, 6]
+        pitch_classes: [7, 9, 8, 10, 11, 1, 0, 2, 3, 5, 4, 6],
+        modulo: 12
       }
 
   See [above](#module-transforming-tone-rows) for details about the inverse

@@ -23,9 +23,9 @@ defmodule Webern.Row do
 
   """
 
-  defstruct [:pitch_classes]
+  defstruct [:pitch_classes, :modulo]
 
-  @type t :: %__MODULE__{pitch_classes: [integer]}
+  @type t :: %__MODULE__{pitch_classes: [integer], modulo: integer | nil}
   @pitch_classes ~w( c cs d ef e f fs g af a bf b )
 
   @doc """
@@ -36,13 +36,35 @@ defmodule Webern.Row do
 
       iex> Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       %Webern.Row{
-        pitch_classes: [0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11]
+        pitch_classes: [0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11],
+        modulo: 12
+      }
+
+  `new/2` can also take an optional second argument specifying the modulo
+  for the row.  If not given, this defaults to the highest value in the row + 1.
+  This assumes an integral-based row of pitch classes. A row using non-integral
+  values should always specify a modulo to avoid unexpected transformations.
+
+  ## Example
+
+      iex> Webern.Row.new([0, 2, 1, 3, 4, 5])
+      %Webern.Row{
+        pitch_classes: [0, 2, 1, 3, 4, 5],
+        modulo: 6
+      }
+
+      iex> Webern.Row.new([0, 2, 1, 3, 4, 5], 7)
+      %Webern.Row{
+        pitch_classes: [0, 2, 1, 3, 4, 5],
+        modulo: 7
       }
 
   """
-  @spec new([integer]) :: __MODULE__.t
-  def new(pitch_classes) do
-    %__MODULE__{pitch_classes: pitch_classes}
+  @spec new([integer], integer | nil) :: __MODULE__.t
+  def new(pitch_classes, modulo \\ nil) do
+    with modulo <- modulo || Enum.max(pitch_classes) + 1 do
+      %__MODULE__{pitch_classes: pitch_classes, modulo: modulo}
+    end
   end
 
   @doc """
@@ -53,7 +75,8 @@ defmodule Webern.Row do
       iex> Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       ...> |> Row.prime(3)
       %Webern.Row{
-        pitch_classes: [3, 5, 4, 6, 7, 9, 8, 10, 11, 1, 0, 2]
+        pitch_classes: [3, 5, 4, 6, 7, 9, 8, 10, 11, 1, 0, 2],
+        modulo: 12
       }
 
   """
@@ -71,7 +94,8 @@ defmodule Webern.Row do
       iex> Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       ...> |> Row.retrograde(4)
       %Webern.Row{
-        pitch_classes: [3, 1, 2, 0, 11, 9, 10, 8, 7, 5, 6, 4]
+        pitch_classes: [3, 1, 2, 0, 11, 9, 10, 8, 7, 5, 6, 4],
+        modulo: 12
       }
 
   """
@@ -88,7 +112,8 @@ defmodule Webern.Row do
       iex> Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       ...> |> Row.inverse(1)
       %Webern.Row{
-        pitch_classes: [1, 11, 0, 10, 9, 7, 8, 6, 5, 3, 4, 2]
+        pitch_classes: [1, 11, 0, 10, 9, 7, 8, 6, 5, 3, 4, 2],
+        modulo: 12
       }
 
   """
@@ -106,7 +131,8 @@ defmodule Webern.Row do
       iex> Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       ...> |> Row.retrograde_inverse(5)
       %Webern.Row{
-        pitch_classes: [6, 8, 7, 9, 10, 0, 11, 1, 2, 4, 3, 5]
+        pitch_classes: [6, 8, 7, 9, 10, 0, 11, 1, 2, 4, 3, 5],
+        modulo: 12
       }
 
   """
@@ -124,7 +150,8 @@ defmodule Webern.Row do
       iex> Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       ...> |> Row.inverse_retrograde(8)
       %Webern.Row{
-        pitch_classes: [7, 9, 8, 10, 11, 1, 0, 2, 3, 5, 4, 6]
+        pitch_classes: [7, 9, 8, 10, 11, 1, 0, 2, 3, 5, 4, 6],
+        modulo: 12
       }
 
   """
@@ -182,24 +209,24 @@ defmodule Webern.Row do
     Enum.map(pcs, &Enum.at(@pitch_classes, &1))
   end
 
-  defp zero(%__MODULE__{pitch_classes: [h | _] = pitch_classes}) do
-    new(Enum.map(pitch_classes, &(normalize(&1 - h))))
+  defp zero(%__MODULE__{pitch_classes: [h | _] = pitch_classes, modulo: m}) do
+    new(Enum.map(pitch_classes, &(normalize(&1 - h, m))), m)
   end
 
-  defp _retrograde(%__MODULE__{pitch_classes: pitch_classes}) do
-    new(Enum.reverse(pitch_classes))
+  defp _retrograde(%__MODULE__{pitch_classes: pitch_classes, modulo: m}) do
+    new(Enum.reverse(pitch_classes), m)
   end
 
-  defp _inverse(%__MODULE__{pitch_classes: [h | _] = pitch_classes}) do
-    new(Enum.map(pitch_classes, &(normalize(2 * h - &1))))
+  defp _inverse(%__MODULE__{pitch_classes: [h | _] = pcs, modulo: m}) do
+    new(Enum.map(pcs, &normalize(2 * h - &1, m)), m)
   end
 
-  defp transpose(%__MODULE__{pitch_classes: pitch_classes}, interval) do
-    new(Enum.map(pitch_classes, &(normalize(&1 + interval))))
+  defp transpose(%__MODULE__{pitch_classes: pcs, modulo: m}, interval) do
+    new(Enum.map(pcs, &(normalize(&1 + interval, m))), m)
   end
 
-  defp normalize(n) when n < 0, do: normalize(n + (-n * 12))
-  defp normalize(n), do: rem(n, 12)
+  defp normalize(n, m) when n < 0, do: normalize(n + (-n * m), m)
+  defp normalize(n, m), do: rem(n, m)
 end
 
 defimpl String.Chars, for: Webern.Row do
