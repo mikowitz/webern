@@ -59,18 +59,31 @@ defmodule Webern do
   The input `source_row` should be a 12-tone row defined by an ordering of
   the integers `0`..`11`.
 
-      iex> Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
+      iex> Webern.row([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
       %Webern.Row{
         pitch_classes: [0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11],
         modulo: 12
       }
 
   A shorter row can be supplied, in which case the row's modulo will be
-  An optional keyword list second argument can be passed
-  #as a second argument to set the modulo value for the row. If not given, this
-  #defaults to the highest value in the row + 1. This assumes an integral-based
-  #row of pitch classes. A row using non-integral values should always specify
-  #a modulo to avoid unexpected transformations.
+  determined by the highest value in the given row plus 1.
+
+      iex> Webern.row([0, 2, 1, 3, 4, 6])
+      %Webern.Row{
+        pitch_classes: [0, 2, 1, 3, 4, 6],
+        modulo: 7
+      }
+
+  A modulo value can be specified for a row by passing it as a value for
+  `:modulo` in a keyword list secord argument. For partial rows that do not
+  contain the highest possible value, or for rows using non-integral sets,
+  it is recommended you specify this value to avoid unexpected transformations.
+
+      iex> Webern.row([0, 2, 1, 3, 4, 6], modulo: 12)
+      %Webern.Row{
+        pitch_classes: [0, 2, 1, 3, 4, 6],
+        modulo: 12
+      }
 
   """
   @spec row([integer], Keyword.t | nil) :: row
