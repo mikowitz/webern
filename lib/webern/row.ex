@@ -1,6 +1,6 @@
 defmodule Webern.Row do
   @moduledoc """
-  Models a tone row built from pitches from the 12 semitone chromatic scale.
+  Models a serializeable row.
 
   N.B. Although the main functionality for row creation/transformation
   is defined in this module, the `Webern` module provides a more user-friendly
