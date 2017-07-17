@@ -178,6 +178,8 @@ defmodule WebernTest do
   describe ".to_string/1" do
     test "it returns a space separated row when called with a row" do
       assert to_string(row(@op_24)) == "b   bf  d   ef  g   fs  af  e   f   c   cs  a"
+      assert to_string(row([440.0, 492.0, 544.4, 600.3, 640.3], modulo: :infinity)) ==
+        "a' ^\\markup { \\box 440.0 } b' ^\\markup { \\box 492.0 } cqs'' ^\\markup { \\box 544.4 } etqf'' ^\\markup { \\box 600.3 } eqf'' ^\\markup { \\box 640.3 }"
     end
 
     test "it returns a space separated matrix when called with a matrix" do

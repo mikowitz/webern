@@ -27,6 +27,13 @@ defmodule Webern.Row do
 
   @type t :: %__MODULE__{pitch_classes: [integer], modulo: integer | nil}
   @pitch_classes ~w( c cs d ef e f fs g af a bf b )
+  @all_pitch_classes %{
+    0.0 => "c", 0.5 => "cqs", 1.0 => "cs", 1.5 => "ctqs", 2.0 => "d",
+    2.5 => "etqf", 3.0 => "ef", 3.5 => "eqf", 4.0 => "e", 4.5 => "esq",
+    5.0 => "f", 5.5 => "fqs", 6.0 => "fs", 6.5 => "ftqs", 7.0 => "g",
+    7.5 => "atqf", 8.0 => "af", 8.5 => "aqf", 9.0 => "a", 9.5 => "btqf",
+    10.0 => "bf", 10.5 => "bqf", 11.0 => "b", 11.5 => "bqs"
+  }
 
   @doc """
   Accepts `pitch_classes`, a list of integers between 0 and 11, and returns
@@ -206,8 +213,26 @@ defmodule Webern.Row do
   end
 
   defp to_pitch_classes(%__MODULE__{pitch_classes: pcs}) do
-    Enum.map(pcs, &Enum.at(@pitch_classes, &1))
+    Enum.map(pcs, fn pc ->
+      case is_integer(pc) do
+        true -> Enum.at(@pitch_classes, pc, pc)
+        false -> to_pitch_with_frequency_annotation(pc)
+      end
+    end)
   end
+
+  defp to_pitch_with_frequency_annotation(p) do
+    c0 = 440.0 * :math.pow(2, -4.75)
+    n = Float.round(12*:math.log2(p/c0) / 0.5, 0) * 0.5
+    octave = round(Float.floor(n / 12))
+    IO.puts p
+    pc = Map.get(@all_pitch_classes, n - (12 * octave))
+    "#{pc}#{octave_string(octave)} ^\\markup { \\box #{p} }"
+  end
+
+  defp octave_string(3), do: ""
+  defp octave_string(o) when o < 3, do: String.duplicate(",", 3 - o)
+  defp octave_string(o) when o > 3, do: String.duplicate("'", o - 3)
 
   defp zero(%__MODULE__{pitch_classes: [h | _] = pitch_classes, modulo: m}) do
     new(Enum.map(pitch_classes, &(normalize(&1 - h, m))), m)
