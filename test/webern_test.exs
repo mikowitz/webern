@@ -96,6 +96,13 @@ defmodule WebernTest do
       }
     end
 
+    test ".inverse/1 behaves correctly with `modulo: :infinity`" do
+      assert inverse(row([440.0, 493.9, 554.4, 587.3, 659.3], modulo: :infinity)) == %Webern.Row{
+        pitch_classes: [440.0, 386.1, 325.6, 292.7, 220.7],
+        modulo: :infinity
+      }
+    end
+
     test ".inverse/2 returns the inverse form of the row starting at the given step" do
       assert inverse(row(@op_24), 3) == %Webern.Row{
         pitch_classes: [3, 4, 0, 11, 7, 8, 6, 10, 9, 2, 1, 5],

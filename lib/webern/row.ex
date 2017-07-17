@@ -225,6 +225,7 @@ defmodule Webern.Row do
     new(Enum.map(pcs, &(normalize(&1 + interval, m))), m)
   end
 
+  defp normalize(n, :infinity), do: Float.round(n, 1)
   defp normalize(n, m) when n < 0, do: normalize(n + (-n * m), m)
   defp normalize(n, m), do: rem(n, m)
 end

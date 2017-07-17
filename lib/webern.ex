@@ -12,7 +12,9 @@ defmodule Webern do
     `Webern` will assume that the highest possible value is present in the row
     and base the modulo value on that. In cases of integral pitch classes, the
     modulo will be the highest value in the row + 1. Non-integral rows should
-    specify their modulo to avoid unexpected transformations.
+    specify their modulo to avoid unexpected transformations. `:modulo` can
+    also be set to `:infinity` to indicate that no modulo operation should
+    be performed.
 
   `matrix/1` accepts a row as an argument and returns a displayable matrix
   based on the row.
@@ -83,6 +85,16 @@ defmodule Webern do
       %Webern.Row{
         pitch_classes: [0, 2, 1, 3, 4, 6],
         modulo: 12
+      }
+
+  `:modulo` can also be set explicitly to `:infinity` to provide no modulo for
+  a row. This can be useful when working with a source set using absolute
+  pitches or raw Hz values:
+
+      iex> Webern.row([440.0, 493.9, 554.4, 587.3, 659.3], modulo: :infinity)
+      %Webern.Row{
+        pitch_classes: [440.0, 493.9, 554.4, 587.3, 659.3],
+        modulo: :infinity
       }
 
   """

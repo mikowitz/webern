@@ -22,7 +22,9 @@ following keys
   `Webern` will assume that the highest possible value is present in the row
   and base the modulo value on that. In cases of integral pitch classes, the
   modulo will be the highest value in the row + 1. Non-integral rows should
-  specify their modulo to avoid unexpected transformations.
+  specify their modulo to avoid unexpected transformations. `:modulo` can
+  also be set to `:infinity` to indicate that no modulo operation should
+  be performed.
 
 `Webern.matrix/1` accepts a row as an argument and returns a printable matrix
 based on the row.
