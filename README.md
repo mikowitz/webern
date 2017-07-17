@@ -14,9 +14,9 @@ Elixir library for creating and working with 12-tone rows
 
 ### Creating objects
 
-`Webern.row/2` provides a helper function to generate a new tone row consisting
-of pitch classes from the 12-tone semitone chromatic scale. It can also take
-an optional keyword list as a second argument, with the following keys
+`Webern.row/2` provides a helper function to generate a new serializeable row. It
+can also take an optional keyword list as a second argument, with the
+following keys
 
 * `:modulo` specifies the modulo value for the row. If it is not provided,
   `Webern` will assume that the highest possible value is present in the row

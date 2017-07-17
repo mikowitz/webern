@@ -4,9 +4,9 @@ defmodule Webern do
 
   ## Creating objects
 
-  `row/2` provides a helper function to generate a new tone row consisting
-  of pitch classes from the 12-tone semitone chromatic scale. It can also take
-  an optional keyword list as a second argument, with the following keys
+  `row/2` provides a helper function to generate a new serializeable row. It
+  can also take an optional keyword list as a second argument, with the
+  following keys
 
   * `:modulo` specifies the modulo value for the row. If it is not provided,
     `Webern` will assume that the highest possible value is present in the row
@@ -59,15 +59,18 @@ defmodule Webern do
   The input `source_row` should be a 12-tone row defined by an ordering of
   the integers `0`..`11`.
 
-  A shorter row can also be supplied, but the modulo
-  point of the generated row will still be 12, allowing the possibility for
-  row permutations to include pitches not present in the original row.
+      iex> Webern.Row.new([0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11])
+      %Webern.Row{
+        pitch_classes: [0, 2, 1, 3, 4, 6, 5, 7, 8, 10, 9, 11],
+        modulo: 12
+      }
 
-  A keyword list argument containing a value for the key `:modulo` can be passed
-  as a second argument to set the modulo value for the row. If not given, this
-  defaults to the highest value in the row + 1. This assumes an integral-based
-  row of pitch classes. A row using non-integral values should always specify
-  a modulo to avoid unexpected transformations.
+  A shorter row can be supplied, in which case the row's modulo will be
+  An optional keyword list second argument can be passed
+  #as a second argument to set the modulo value for the row. If not given, this
+  #defaults to the highest value in the row + 1. This assumes an integral-based
+  #row of pitch classes. A row using non-integral values should always specify
+  #a modulo to avoid unexpected transformations.
 
   """
   @spec row([integer], Keyword.t | nil) :: row
