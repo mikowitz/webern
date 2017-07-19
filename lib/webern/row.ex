@@ -223,9 +223,8 @@ defmodule Webern.Row do
 
   defp to_pitch_with_frequency_annotation(p) do
     c0 = 440.0 * :math.pow(2, -4.75)
-    n = Float.round(12*:math.log2(p/c0) / 0.5, 0) * 0.5
+    n = Float.round(12 * :math.log2(p / c0) / 0.5, 0) * 0.5
     octave = round(Float.floor(n / 12))
-    IO.puts p
     pc = Map.get(@all_pitch_classes, n - (12 * octave))
     "#{pc}#{octave_string(octave)} ^\\markup { \\box #{p} }"
   end
