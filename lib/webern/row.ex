@@ -259,7 +259,7 @@ defimpl String.Chars, for: Webern.Row do
   def to_string(row = %Webern.Row{}) do
     row
     |> Webern.Row.to_list(to_pitches: true)
-    |> Enum.map(&String.ljust(&1, 4))
+    |> Enum.map(&" #{String.ljust(&1, 3)}")
     |> Enum.join("")
     |> String.strip
   end
@@ -284,7 +284,14 @@ defimpl Webern.Lilypond, for: Webern.Row do
   def row_pitches_to_lily(row = %Webern.Row{}) do
     row
     |> Webern.Row.to_list(to_pitches: true)
-    |> Enum.map(&"#{&1}'")
+    |> Enum.map(&"#{&1}#{octave_mark(&1)}")
     |> Enum.join(" ")
+  end
+
+  defp octave_mark(str) do
+    case Regex.match?(~r/markup/, str) do
+      true -> ""
+      false -> "'"
+    end
   end
 end
