@@ -14,10 +14,19 @@ Elixir library for creating and working with 12-tone rows
 
 ### Creating objects
 
-`Webern.row/1` provides a helper function to generate a new tone row consisting
-of pitch classes from the 12-tone semitone chromatic scale
+`Webern.row/2` provides a helper function to generate a new serializeable row. It
+can also take an optional keyword list as a second argument, with the
+following keys
 
-`Webern.matrix/1` accepts a row as an argument and returns a displayable matrix
+* `:modulo` specifies the modulo value for the row. If it is not provided,
+  `Webern` will assume that the highest possible value is present in the row
+  and base the modulo value on that. In cases of integral pitch classes, the
+  modulo will be the highest value in the row + 1. Non-integral rows should
+  specify their modulo to avoid unexpected transformations. `:modulo` can
+  also be set to `:infinity` to indicate that no modulo operation should
+  be performed.
+
+`Webern.matrix/1` accepts a row as an argument and returns a printable matrix
 based on the row.
 
 ### Transforming tone rows

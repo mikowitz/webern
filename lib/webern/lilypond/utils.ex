@@ -12,6 +12,7 @@ defmodule Webern.Lilypond.Utils do
           \\override Staff.TimeSignature #'stencil = ##f
           \\override Staff.Stem #'transparent = ##t
           \\accidentalStyle Score.dodecaphonic
+          \\textLengthOn
           \\time 12/4
           #{tone_row_lily}
           \\bar "|."
